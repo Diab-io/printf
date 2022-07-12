@@ -72,4 +72,4 @@ _printf("%s, %s %d, %d\\n", weekday, month, day, year);
 .SH BUGS
 No known bugs
 .SH AUTHOR
-David Odimayo and Bamiwo Aluko
+David Odimayo, Bamiwo Aluko
