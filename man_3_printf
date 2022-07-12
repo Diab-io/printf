@@ -1,88 +1,75 @@
-.TH _printf 3 "11 July 2022" "1.0" "custom man page"
+.TH man 3 "11 july 2022" "0.1" "_printf man page"
 .SH NAME
 .B _printf
-- formatted output conversion
+- Formatted output conversion.
 .SH SYNOPSIS
 .B #include "main.h"
-.sp
-int _printf(const char *format, ...);
+
+.B int _printf(const char *
+.I format
+.B , ...)
 .SH DESCRIPTION
-The function printf() writes output to
-.I stdout,
-the standard output stream. It writes the output under the control of a format string that specifies how subsequent arguments (or arguments accessed via the variable-length argument facilities of stdarg(3)) are converted for output.
-.SS Return value
-Upon successful return, this function returns the number of characters printed (excluding the null byte used to end output to strings).
+.B _printf()
+Prints to standard output under the control of a
+.I format
+string that specifies how subsequent arguments are converted for output.
+.SH Return value
+On successful return, these functions return the number of characters printed, excluding the null byte used to end output to strings.
+
 If an output error is encountered, a negative value is returned.
-.SS Format of the format string
-The format string is a character string, beginning and ending in its initial shift state, if any. The format string is composed of zero or more directives: ordinary characters (not %), which are copied unchanged to the output stream; and conversion specifications, each of which results in fetching zero or more subsequent arguments. Each conversion specification is introduced by the character %.
-.I conversion specifier.
-.SS The flag characters
-.SS The field width
-.SS The precision
-.SS The length modifier
-.SS The conversion specifier
-A character that specifies the type of conversion to be applied. The conversion specifiers and their meanings are:
-.sp
-b      The
-.I int
-argument is converted to binary as characters, and the result is written.
-.sp
-c      The
-.I int
-argument is converted to an unsigned char, and the resulting character is written.
-.sp
-d, i   The
-.I int
-argument is converted to signed decimal notation.
-.sp
-o      The
-.I int
-argument is converted to octal as characters, and the result is written.
-.sp
-r      The
-.I const char *
-argument characters are all printed in reverse.
-.sp
-R      The
-.I const char *
-argument is encrypted shifting each letter 13 letters down the alphabet. rot13
-.sp
-s
-.RS
-The
-.I const char *
-argument is expected to be a pointer to an array of character type (pointer to a string). Characters from the array are written up to (but not including) a terminating null byte ('\0').
-.RE
-.sp
-%      A '%' is written. No argument is converted. The complete conversion specification is '%%'.
-.SH CONFORMING TO
-The printf() function conforms to C89.
-.SH NOTES
-This custom _printf function does not yet handle more
-.I flags, field width, precision,
-or
-.I length modifiers.
+.SH Format of the format string
+The format string is composed of 0 or more directives (ordinary characters that are not %), which are copied to the output stream. The format string is also composed of conversion specifications, each of which result in fetching zero or more subsequent arguments. Each conversion specification is introduced by the character % and ends with the conversion specifier.
+The argument must correspond properly with the conversion specifier. By default, the arguments are used in the order given.
+.SH The conversion specifier
+ A character that specifies the type of conversion to be applied. The conversion specifiers and their meanings are:
+.TP
+.BR c
+The int argument is converted to an unsigned char, then the resulting character is written
+.TP
+.B s
+The const char * argument is expected to be a pointer to an array of character type (pointer to a string). Characters from the array are written up to a terminating null byte, but do ot include the terminating null byte.
+.TP
+.B S
+Prints a string. Non printable characters are printed as "\x" followed by their ASCII values in two digit hexadecimal
+.TP
+.B d, i
+The int argument is converted to signed decimal notation.
+.TP
+.B u
+The unsigned int argument is converted to unsigned decimal notation
+.TP
+.B o
+The unsigned int argument is converted to unsigned octal notation.
+.TP
+.B x
+The unsigned int argument is converted to unsigned lowercase hexadecimal notation.
+.TP
+.B X
+The unsigned int argument is converted to unsigned uppercase hexadecimal notation.
+.TP
+.B b
+The unsigned int argument is converted to unsigned binary notation.
+.TP
+.B p
+Address is printed in hexadecimal.
+.TP
+.B r
+Prints a string in reverse.
+.TP
+.B R
+Prints a string converted to rot13
+.TP
+.B %
+A '%' is written but no argument is converted. The complete version specification is '%%'
 .SH EXAMPLE
-To print strings and characters:
-.sp
-.RS
-#include <(our files)>
-.RE
-.RS
-_printf("Let's print %c %s\\n", 'a', "string");
-.RE
-.sp
-To print decimal numbers and integers:
-.sp
-.RS
-#include <(our files)>
-.RE
-.RS
-_printf("Max int is %d and min int is %i\\n", 2147483647, -2147483648);
-.RE
-.SH BUGS
-Bugs...
+To print the day of the year, where weekday and month are pointers to strings and day and year are integers:
+
+#include "main.h"
+
+_printf("%s, %s %d, %d\\n", weekday, month, day, year);
 .SH SEE ALSO
-.I write(2), printf(3)
+.I printf(3)
+.SH BUGS
+No known bugs
 .SH AUTHOR
 David Odimayo and Bamiwo Aluko
